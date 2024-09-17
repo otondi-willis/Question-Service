@@ -1,6 +1,7 @@
 package com.willis.question_service.dao;
 
-import com.willis.Quiz.App.Demo.model.Question;
+
+import com.willis.question_service.model.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
