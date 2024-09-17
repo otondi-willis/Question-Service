@@ -1,7 +1,8 @@
 package com.willis.question_service.service;
 
-import com.willis.Quiz.App.Demo.dao.QuestionDao;
-import com.willis.Quiz.App.Demo.model.Question;
+
+import com.willis.question_service.dao.QuestionDao;
+import com.willis.question_service.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
