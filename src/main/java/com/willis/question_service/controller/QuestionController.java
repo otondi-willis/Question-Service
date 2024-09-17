@@ -1,7 +1,8 @@
 package com.willis.question_service.controller;
 
-import com.willis.Quiz.App.Demo.model.Question;
-import com.willis.Quiz.App.Demo.service.QuestionService;
+
+import com.willis.question_service.model.Question;
+import com.willis.question_service.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
