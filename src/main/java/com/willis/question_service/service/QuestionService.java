@@ -1,8 +1,11 @@
 package com.willis.question_service.service;
 
 
+import com.willis.question_service.QuestionServiceApplication;
 import com.willis.question_service.dao.QuestionDao;
 import com.willis.question_service.model.Question;
+import com.willis.question_service.model.QuestionWrapper;
+import com.willis.question_service.model.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,15 +69,45 @@ public class QuestionService {
         return new ResponseEntity<>("Failed to update", HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<List<Integer>> getQuestionsForQuiz(String categoryName, String numQuestions) {
-        List<Integer> questions = questionDao.findRandomQuestionsByCategory(categoryName);
+    public ResponseEntity<List<Integer>> getQuestionsForQuiz(String categoryName, Integer numQuestions) {
+        List<Integer> questions = questionDao.findRandomQuestionsByCategory(categoryName,numQuestions);
 
-        // Ensure we only return up to numQ questions
-        if (questions.size() < numQuestions) {
-            return new ResponseEntity<>("Not enough questions in the selected category", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(questions,HttpStatus.OK);
+
+    }
+
+    public ResponseEntity<List<QuestionWrapper>> getQuestionsFromId(List<Integer> questionIds) {
+        List<QuestionWrapper> wrappers = new ArrayList<>();
+        List<Question> questions = new ArrayList<>();
+
+        for(Integer id : questionIds){
+            questions.add(questionDao.findById(id).get());
         }
-        // Limiting the questions to numQ
-        List<Integer> limitedQuestions = questions.subList(0, numQuestions);
 
+        for(Question question : questions){
+            QuestionWrapper wrapper= new QuestionWrapper();
+            wrapper.setId(question.getId());
+            wrapper.setQuestiontitle(question.getQuestiontitle());
+            wrapper.setOption1(question.getOption1());
+            wrapper.setOption2(question.getOption2());
+            wrapper.setOption3(question.getOption3());
+            wrapper.setOption4(question.getOption4());
+            wrappers.add(wrapper);
+        }
+        return new ResponseEntity<>(wrappers,HttpStatus.OK);
+    }
+
+    public ResponseEntity<Integer> getScore(List<Response> responses) {
+
+
+        int right = 0;
+
+        for(Response response:responses){
+            Question question = questionDao.findById(response.getId()).get();
+            if(response.getResponse().equals(question.getRightanswer()))
+                right++;
+
+        }
+        return new ResponseEntity<>(right,HttpStatus.OK);
     }
 }
