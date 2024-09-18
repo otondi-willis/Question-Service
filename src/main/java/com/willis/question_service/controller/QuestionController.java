@@ -2,6 +2,8 @@ package com.willis.question_service.controller;
 
 
 import com.willis.question_service.model.Question;
+import com.willis.question_service.model.QuestionWrapper;
+import com.willis.question_service.model.Response;
 import com.willis.question_service.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +39,20 @@ public class QuestionController {
     }
     //generate
     @GetMapping("generate")
-    public ResponseEntity<List<Integer>> getQuestionsForQuiz(@RequestParam String categoryName, @RequestParam String numQuestions){
+    public ResponseEntity<List<Integer>> getQuestionsForQuiz(@RequestParam String categoryName, @RequestParam Integer numQuestions){
         return questionService.getQuestionsForQuiz(categoryName, numQuestions);
     }
+
+
     //getQuestions (questionId)
+    @PostMapping("getQuestions")
+    public ResponseEntity<List<QuestionWrapper>> getQuestionsFromId(@RequestBody List<Integer> questionIds){
+        return questionService.getQuestionsFromId(questionIds);
+    }
     //getScore
+    @PostMapping("getScore")
+    public ResponseEntity<Integer> getScore(@RequestBody List<Response> responses){
+        return questionService.getScore(responses);
+
+    }
 }
