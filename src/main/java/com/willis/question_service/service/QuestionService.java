@@ -65,4 +65,16 @@ public class QuestionService {
         }
         return new ResponseEntity<>("Failed to update", HttpStatus.BAD_REQUEST);
     }
+
+    public ResponseEntity<List<Integer>> getQuestionsForQuiz(String categoryName, String numQuestions) {
+        List<Integer> questions = questionDao.findRandomQuestionsByCategory(categoryName);
+
+        // Ensure we only return up to numQ questions
+        if (questions.size() < numQuestions) {
+            return new ResponseEntity<>("Not enough questions in the selected category", HttpStatus.BAD_REQUEST);
+        }
+        // Limiting the questions to numQ
+        List<Integer> limitedQuestions = questions.subList(0, numQuestions);
+
+    }
 }
