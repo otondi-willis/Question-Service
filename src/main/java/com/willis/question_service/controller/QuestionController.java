@@ -35,4 +35,11 @@ public class QuestionController {
     public ResponseEntity<String> updateQuestions(@RequestBody Question question){
         return questionService.updateQuestions(question);
     }
+    //generate
+    @GetMapping("generate")
+    public ResponseEntity<List<Integer>> getQuestionsForQuiz(@RequestParam String categoryName, @RequestParam String numQuestions){
+        return questionService.getQuestionsForQuiz(categoryName, numQuestions);
+    }
+    //getQuestions (questionId)
+    //getScore
 }
